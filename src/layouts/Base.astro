@@ -1,0 +1,61 @@
+---
+import '../styles/global.css';
+import { getImage } from 'astro:assets';
+import profile from '../assets/profile.jpg';
+import type { Lang } from '../data/types';
+import { languages } from '../i18n/ui';
+import { withBase } from '../utils/format';
+
+interface Props {
+  lang: Lang;
+  title: string;
+  description: string;
+}
+
+const { lang, title, description } = Astro.props;
+const site = Astro.site ?? new URL('http://localhost:3000');
+const canonical = new URL(withBase(`${lang}/`), site).href;
+const alternates = (Object.keys(languages) as Lang[]).map((code) => ({
+  code,
+  href: new URL(withBase(`${code}/`), site).href,
+}));
+// Imagen para previsualizaciones al compartir el enlace (LinkedIn, WhatsApp…)
+const ogImage = await getImage({ src: profile, width: 400, height: 400, format: 'jpg' });
+const ogImageUrl = new URL(ogImage.src, site).href;
+---
+
+<!doctype html>
+<html lang={lang}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="color-scheme" content="light dark" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    {alternates.map((alt) => <link rel="alternate" hreflang={alt.code} href={alt.href} />)}
+    <link rel="alternate" hreflang="x-default" href={new URL(withBase('es/'), site).href} />
+    <link rel="icon" type="image/svg+xml" href={withBase('favicon.svg')} />
+
+    <meta property="og:type" content="profile" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:locale" content={lang === 'es' ? 'es_MX' : 'en_US'} />
+    <meta property="og:image" content={ogImageUrl} />
+    <meta property="og:image:width" content="400" />
+    <meta property="og:image:height" content="400" />
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:image" content={ogImageUrl} />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Merriweather:wght@700&display=swap"
+    />
+  </head>
+  <body>
+    <slot />
+  </body>
+</html>

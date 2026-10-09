@@ -1,0 +1,46 @@
+---
+import type { GetStaticPaths } from 'astro';
+import type { Lang } from '../../data/types';
+import Base from '../../layouts/Base.astro';
+import Header from '../../components/Header.astro';
+import Section from '../../components/Section.astro';
+import Job from '../../components/Job.astro';
+import Skills from '../../components/Skills.astro';
+import Education from '../../components/Education.astro';
+import { cvByLang, languages, ui } from '../../i18n/ui';
+import { richText } from '../../utils/format';
+
+export const getStaticPaths = (() =>
+  (Object.keys(languages) as Lang[]).map((lang) => ({ params: { lang } }))) satisfies GetStaticPaths;
+
+const lang = Astro.params.lang as Lang;
+const cv = cvByLang[lang];
+const t = ui[lang];
+---
+
+<Base lang={lang} title={`${cv.name} · ${cv.title}`} description={t.metaDescription}>
+  <a class="skip-link no-print" href="#main">{t.skipToContent}</a>
+  <div class="page">
+    <Header cv={cv} t={t} lang={lang} />
+
+    <main id="main" class="layout">
+      <div class="layout__main">
+        <Section title={t.experience} id="experience">
+          {cv.experience.map((job) => <Job job={job} />)}
+        </Section>
+      </div>
+
+      <aside class="layout__side">
+        <Section title={t.about} id="about">
+          <p class="about" set:html={richText(cv.about)} />
+        </Section>
+        <Section title={t.skills} id="skills">
+          <Skills groups={cv.skills} />
+        </Section>
+        <Section title={t.education} id="education">
+          <Education items={cv.education} />
+        </Section>
+      </aside>
+    </main>
+  </div>
+</Base>

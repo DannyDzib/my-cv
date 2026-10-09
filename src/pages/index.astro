@@ -1,0 +1,27 @@
+---
+import { withBase } from '../utils/format';
+
+// La raíz redirige a /es/ (o a /en/ si el navegador está en inglés).
+const es = withBase('es/');
+const en = withBase('en/');
+---
+
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Angel Daniel Dzib Chan · Sr Front-End Developer</title>
+    <meta name="robots" content="noindex" />
+    <link rel="canonical" href={es} />
+    <script is:inline define:vars={{ es, en }}>
+      const prefersEn = (navigator.languages || [navigator.language]).some((l) => /^en\b/i.test(l))
+        && !(navigator.languages || []).some((l) => /^es\b/i.test(l));
+      location.replace(prefersEn ? en : es);
+    </script>
+    <noscript><meta http-equiv="refresh" content={`0; url=${es}`} /></noscript>
+  </head>
+  <body>
+    <p><a href={es}>Español</a> · <a href={en}>English</a></p>
+  </body>
+</html>

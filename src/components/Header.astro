@@ -1,0 +1,52 @@
+---
+import type { CV, Lang } from '../data/types';
+import type { UIStrings } from '../i18n/ui';
+import { Image } from 'astro:assets';
+import profile from '../assets/profile.jpg';
+import { withBase } from '../utils/format';
+
+interface Props {
+  cv: CV;
+  t: UIStrings;
+  lang: Lang;
+}
+
+const { cv, t, lang } = Astro.props;
+const otherLang: Lang = lang === 'es' ? 'en' : 'es';
+const { phone, email, linkedin, github, location } = cv.contact;
+const telHref = `tel:${phone.replace(/[^\d+]/g, '')}`;
+---
+
+<header class="header">
+  <Image
+    class="header__photo"
+    src={profile}
+    alt={cv.name}
+    width={240}
+    height={240}
+    loading="eager"
+    fetchpriority="high"
+  />
+  <div class="header__intro">
+    <h1 class="header__name">{cv.name}</h1>
+    <p class="header__title">{cv.title}</p>
+  </div>
+
+  <nav class="header__actions no-print" aria-label={lang === "es" ? "Acciones" : "Actions"}>
+    <a class="btn btn--ghost" href={withBase(`${otherLang}/`)} hreflang={otherLang} lang={otherLang}>
+      <span aria-hidden="true">{otherLang.toUpperCase()}</span>
+      <span class="btn__label">{t.switchLang}</span>
+    </a>
+    <button class="btn btn--primary" type="button" onclick="window.print()">
+      {t.downloadPdf}
+    </button>
+  </nav>
+
+  <ul class="header__contact" aria-label={t.contact}>
+    <li><a href={telHref}>{phone}</a></li>
+    <li><a href={`mailto:${email}`}>{email}</a></li>
+    {linkedin && <li><a href={linkedin} target="_blank" rel="noopener">LinkedIn</a></li>}
+    {github && <li><a href={github} target="_blank" rel="noopener">GitHub</a></li>}
+    {location && <li>{location}</li>}
+  </ul>
+</header>
