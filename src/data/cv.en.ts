@@ -6,11 +6,11 @@ export const cvEn: CV = {
   title: 'Sr Front-End Developer',
   contact,
   about:
-    'Computer Systems Engineer with **7 years of experience** in software development, working on development teams across the **Insurance, Retail (OXXO), Passenger & Cargo Transportation, Industrial (Ternium) and Construction** sectors. Specialized in building web and mobile applications with **React** and **React Native**, focused on delivering efficient, scalable solutions aligned with development best practices, collaboration and technical quality.',
+    'Computer Systems Engineer with **7+ years** building web and mobile applications with **React, React Native and TypeScript**. I have worked across **insurance, banking, fintech, aviation, industrial and construction** for companies such as **MetLife, Aeroméxico, Digital FEMSA and Actinver**. Focused on scalable architecture, Design Systems, testing and AI-assisted development.',
   experience: [
     {
       company: 'Capgemini México S. de R.L. de C.V.',
-      role: 'React Native Developer',
+      role: 'Sr Front-End Developer',
       period: 'Sep 2024 – Present',
       projects: [
         {

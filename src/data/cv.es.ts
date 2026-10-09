@@ -6,11 +6,11 @@ export const cvEs: CV = {
   title: 'Sr Front-End Developer',
   contact,
   about:
-    'Ingeniero en Sistemas Computacionales con **7 años de experiencia** en el desarrollo de software, trabajando en equipos de desarrollo dentro de los sectores de **Seguros, Comercial (OXXO), Transporte de pasajeros y carga, Industria (Ternium) y Construcción**. Especializado en la creación de aplicaciones web y móviles utilizando **React** y **React Native**, enfocado en entregar soluciones eficientes, escalables y alineadas con buenas prácticas de desarrollo, colaboración y calidad técnica.',
+    'Ingeniero en Sistemas Computacionales con **más de 7 años** desarrollando aplicaciones web y móviles con **React, React Native y TypeScript**. He trabajado en **seguros, banca, fintech, aviación, industria y construcción** para empresas como **MetLife, Aeroméxico, Digital FEMSA y Actinver**. Enfocado en arquitectura escalable, Design Systems, testing y desarrollo asistido por IA.',
   experience: [
     {
       company: 'Capgemini México S. de R.L. de C.V.',
-      role: 'React Native Developer',
+      role: 'Sr Front-End Developer',
       period: 'Sep 2024 – Actualidad',
       projects: [
         {

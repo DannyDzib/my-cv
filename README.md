@@ -13,24 +13,40 @@ npm run build     # verifica tipos y genera dist/
 npm run preview   # sirve el build de producción
 ```
 
-## Publicar en GitHub Pages (solo la primera vez)
+## Despliegue en GitHub Pages
 
-1. En `astro.config.mjs`, cambia `TU_USUARIO` por tu usuario de GitHub.
-2. Crea en GitHub un repositorio **vacío** llamado `my-cv`.
-3. Sube el código:
-   ```bash
-   git init
-   git add .
-   git commit -m "Mi CV"
-   git branch -M main
-   git remote add origin https://github.com/TU_USUARIO/my-cv.git
-   git push -u origin main
+🌐 **Web publicada:** https://dannydzib.github.io/my-cv/
+
+### Cómo se configuró
+
+1. **Astro** (`astro.config.mjs`): se definió la URL del sitio y la ruta base del repositorio, para que enlaces, imágenes y metadatos funcionen bajo `/my-cv/`:
+   ```js
+   site: 'https://dannydzib.github.io',
+   base: '/my-cv',
    ```
-4. En el repo, ve a **Settings → Pages → Build and deployment → Source: GitHub Actions**.
+2. **Workflow de GitHub Actions** (`.github/workflows/deploy.yml`) con dos jobs:
+   - **build**: usa la action oficial `withastro/action`, que instala dependencias, compila el sitio (`astro check` + `astro build`) y sube `dist/` como artefacto de Pages.
+   - **deploy**: publica ese artefacto con `actions/deploy-pages`.
+3. **Repositorio** `DannyDzib/my-cv`, público (GitHub Pages es gratis en repos públicos), con `main` como rama por defecto.
+4. **GitHub Pages activado** en **Settings → Pages → Build and deployment → Source: GitHub Actions**. Sin este paso el deploy falla con `404 … Ensure GitHub Pages has been enabled`.
 
-En 1–2 minutos estará en `https://TU_USUARIO.github.io/my-cv/`. A partir de ahí, cada `git push` a `main` vuelve a publicar la web automáticamente (`.github/workflows/deploy.yml`).
+### Actualizaciones automáticas
 
-> Si prefieres la URL `https://TU_USUARIO.github.io` sin `/my-cv`, llama al repo `TU_USUARIO.github.io` y elimina la línea `base` de `astro.config.mjs`.
+Cada `git push` a la rama **`main`** vuelve a compilar y publicar la web sola, sin pasos manuales:
+
+```bash
+git add .
+git commit -m "Actualizo mi CV"
+git push
+```
+
+En 1–2 minutos los cambios aparecen en la web. El progreso se ve en la pestaña **Actions** del repositorio.
+
+- Si el build falla (por ejemplo, por un error de TypeScript), **no se publica nada** y la versión anterior sigue en línea.
+- También se puede relanzar el despliegue a mano: **Actions → Deploy to GitHub Pages → Run workflow**.
+- Si no ves los cambios, recarga sin caché con `Cmd + Shift + R`.
+
+> Para usar la URL `https://dannydzib.github.io` sin `/my-cv`, el repo debería llamarse `DannyDzib.github.io` y habría que eliminar la línea `base` de `astro.config.mjs`.
 
 ## Editar el contenido
 
@@ -54,7 +70,3 @@ Para que aparezcan **LinkedIn** y **GitHub**, rellena sus URLs en `contact.ts`.
 - Responsive: dos columnas en escritorio y una en móvil.
 - **Descargar PDF**: usa la impresión del navegador con estilos optimizados para A4 ("Guardar como PDF").
 
-## Notas sobre el contenido
-
-- En el PDF original aparece "Cloud Code"; aquí se corrigió a **Claude Code**. Si no era eso, edítalo en `cv.es.ts` y `cv.en.ts`.
-- Se corrigieron erratas menores (puntos dobles, acentos, tiempos verbales) y las tecnologías se agruparon por categoría, añadiendo algunas que ya aparecían en la experiencia (Angular, RTK Query, React Hook Form, Micro Frontends, Monorepo).

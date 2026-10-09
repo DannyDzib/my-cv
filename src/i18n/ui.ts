@@ -17,7 +17,7 @@ export const cvByLang: Record<Lang, CV> = {
 export const ui = {
   es: {
     metaDescription:
-      'CV de Angel Daniel Dzib Chan, Sr Front-End Developer con 7 años de experiencia en React y React Native.',
+      'CV de Angel Daniel Dzib Chan, Sr Front-End Developer con más de 7 años de experiencia en React y React Native.',
     contact: 'Contacto',
     experience: 'Experiencia',
     skills: 'Tecnologías',
@@ -29,7 +29,7 @@ export const ui = {
   },
   en: {
     metaDescription:
-      'Resume of Angel Daniel Dzib Chan, Sr Front-End Developer with 7 years of experience in React and React Native.',
+      'Resume of Angel Daniel Dzib Chan, Sr Front-End Developer with 7+ years of experience in React and React Native.',
     contact: 'Contact',
     experience: 'Experience',
     skills: 'Skills',
